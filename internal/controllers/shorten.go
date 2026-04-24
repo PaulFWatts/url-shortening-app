@@ -4,6 +4,8 @@ import (
 	"html/template"
 	"net/http"
 	"strings"
+
+	"github.com/PaulFWatts/url-shortening-app/url"
 )
 
 func Shorten(w http.ResponseWriter, r *http.Request) {
@@ -22,10 +24,10 @@ func Shorten(w http.ResponseWriter, r *http.Request) {
 		originalURL = "https://" + originalURL
 	}
 
-	// shorten the URL
+	shortURL := url.Shorten(originalURL)
 
 	data := map[string]string{
-		"ShortURL": originalURL,
+		"ShortURL": shortURL,
 	}
 
 	t, err := template.ParseFiles("internal/views/shorten.html")
