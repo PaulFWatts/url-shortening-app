@@ -1,67 +1,56 @@
-# Url Shortening App
+# URL Shortening App
 
-A simple Go-based web application for shortening URLs. This project is part of the [Mastering Go With GoLand](https://www.bytesizego.com/courses/a508e491-8e7b-4f29-9cbb-a374126cecac/view) course.
+A small Go web app that accepts a URL and returns a deterministic short code.
 
-## Overview
+## Current behavior
 
-The application provides a web interface where users can enter a URL and receive a shortened version. 
-Currently, it serves as a foundational project demonstrating:
-- Basic Go web server using `net/http`.
-- HTML template rendering with `html/template`.
-- Handling form submissions.
+- Serves a web form at `GET /`.
+- Accepts shortening requests at `POST /shorten`.
+- Normalizes input by prepending `https://` when no scheme is provided.
+- Generates short codes using SHA-256 and returns the first 8 hex characters.
+- Renders the shortened result as an HTML fragment and injects it into the page with JavaScript.
+- Includes a copy-to-clipboard button for `http://localhost:8080/<short-code>`.
 
 ## Requirements
 
-- **Go**: 1.26 or higher (as specified in `go.mod`).
+- **Go** `1.26.1` (see `go.mod`).
 
-## Setup and Run
+## Run
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/PaulFWatts/url-shortening-app.git
-cd url-shortening-app
-```
-
-### 2. Run the application
-You can start the web server directly using the Go tool:
 ```bash
 go run cmd/web-app/main.go
 ```
-The server will start on `http://localhost:8080`.
 
-## Scripts
+App URL: `http://localhost:8080`
 
-- `go run cmd/web-app/main.go`: Starts the development server.
-- `go build -o web-app cmd/web-app/main.go`: Builds the executable.
+## Build
 
-## Project Structure
+```bash
+go build -o web-app cmd/web-app/main.go
+```
+
+## Test
+
+```bash
+go test ./...
+```
+
+## Project structure
 
 ```text
 url-shortening-app/
 ├── cmd/
 │   └── web-app/
-│       └── main.go         # Application entry point
+│       └── main.go                 # Registers routes and starts :8080
 ├── internal/
 │   ├── controllers/
-│   │   ├── index.go        # Handlers for the index page
-│   │   └── shorten.go      # Handlers for URL shortening logic
+│   │   ├── index.go                # GET / handler
+│   │   └── shorten.go              # POST /shorten handler
 │   └── views/
-│       ├── index.html      # Home page template
-│       └── shorten.html    # Results page template
-├── go.mod                  # Go module definition
-└── README.md               # Project documentation
+│       ├── index.html              # Form + client-side fetch logic
+│       └── shorten.html            # Result fragment with copy button
+├── url/
+│   └── url.go                      # Short code generation (SHA-256 -> 8 chars)
+├── go.mod
+└── README.md
 ```
-
-## Environment Variables
-
-Currently, the application does not use any environment variables.
-- TODO: Add support for port configuration via `PORT` environment variable.
-
-## Tests
-
-- TODO: Add unit tests for controllers and shortening logic.
-- Run tests (once added) using: `go test ./...`
-
-## License
-
-- TODO: Add license information.
