@@ -35,6 +35,20 @@ go build -o web-app cmd/web-app/main.go
 go test ./...
 ```
 
+## SEO helper script
+
+The repo includes `scripts\myenv\gen_seo.py` to generate SEO text and append it to `internal\views\index.html`.
+
+- The script now resolves `index.html` from the script location, so it is not tied to your current working directory.
+- Do **not** hardcode API keys in source files. Use an environment variable instead.
+
+PowerShell example:
+
+```powershell
+$env:OPENAI_API_KEY="your-key"
+python scripts\myenv\gen_seo.py
+```
+
 ## Project structure
 
 ```text

@@ -16,3 +16,5 @@
 - Handlers parse templates by relative path (e.g., `internal/views/index.html`), so running from repo root is expected.
 - The shorten flow normalizes URLs by adding `https://` when no scheme is provided.
 - The `Shorten` handler currently returns the original URL as `ShortURL` in the template data map.
+- For utility scripts (for example, `scripts\myenv\gen_seo.py`), resolve project files from `__file__`/absolute paths instead of process cwd-relative paths.
+- Never commit API keys or secrets in code; read them from environment variables.
